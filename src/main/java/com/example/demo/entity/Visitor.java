@@ -3,5 +3,7 @@ public class Visitor{
     private String fullName;
     private String email;
     private String phone;
-    pri
+    private String idProof;
+    private LocalDateTime createdAt;
+    
 }
