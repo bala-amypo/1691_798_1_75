@@ -1,3 +1,12 @@
+package com.example.demo.controller;
+
+import com.example.demo.entity.RiskScore;
+import com.example.demo.service.RiskScoreService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/risk-scores")
 @Tag(name = "Risk Scores")

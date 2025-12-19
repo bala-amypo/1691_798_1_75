@@ -1,3 +1,12 @@
+package com.example.demo.controller;
+
+import com.example.demo.entity.VisitLog;
+import com.example.demo.service.VisitLogService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/visit-logs")
 @Tag(name = "Visit Logs")
@@ -10,7 +19,9 @@ public class VisitLogController {
     }
 
     @PostMapping("/{visitorId}")
-    public VisitLog create(@PathVariable Long visitorId, @RequestBody VisitLog log) {
+    public VisitLog create(
+            @PathVariable Long visitorId,
+            @RequestBody VisitLog log) {
         return service.createVisitLog(visitorId, log);
     }
 
