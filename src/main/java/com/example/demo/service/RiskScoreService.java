@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.RiskScore;
+import com.example.demo.model.RiskScore;
 import java.util.List;
 
 public interface RiskScoreService {
@@ -8,4 +8,3 @@ public interface RiskScoreService {
     RiskScore getScoreForVisitor(Long visitorId);
     List<RiskScore> getAllScores();
 }
-

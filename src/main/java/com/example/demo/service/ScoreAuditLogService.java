@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.ScoreAuditLog;
+import com.example.demo.model.ScoreAuditLog;
 import java.util.List;
 
 public interface ScoreAuditLogService {
@@ -8,4 +8,3 @@ public interface ScoreAuditLogService {
     List<ScoreAuditLog> getLogsByVisitor(Long visitorId);
     ScoreAuditLog getLog(Long id);
 }
-
