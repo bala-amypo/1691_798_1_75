@@ -1,15 +1,13 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class ScoreAuditLog {
 
     @Id
@@ -24,17 +22,10 @@ public class ScoreAuditLog {
 
     private Integer scoreChange;
     private String reason;
-
     private LocalDateTime loggedAt;
 
     @PrePersist
-    void onCreate() {
+    void prePersist() {
         loggedAt = LocalDateTime.now();
-        if (reason == null || reason.isBlank()) {
-            throw new RuntimeException("reason required");
-        }
-        if (scoreChange < 0) {
-            throw new RuntimeException("Invalid score");
-        }
     }
 }
