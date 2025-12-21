@@ -1,15 +1,13 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class VisitLog {
 
     @Id
@@ -29,9 +27,5 @@ public class VisitLog {
         if (entryTime == null) {
             entryTime = LocalDateTime.now();
         }
-        if (exitTime != null && exitTime.isBefore(entryTime)) {
-            throw new RuntimeException("exitTime must be after entryTime");
-        }
     }
 }
-
