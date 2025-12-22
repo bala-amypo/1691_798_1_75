@@ -1,12 +1,16 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Table(name = "visit_logs")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class VisitLog {
 
@@ -14,18 +18,22 @@ public class VisitLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "visitor_id", nullable = false)
     private Visitor visitor;
 
     private LocalDateTime entryTime;
+
     private LocalDateTime exitTime;
+
+    @Column(nullable = false)
     private String purpose;
+
+    @Column(nullable = false)
     private String location;
 
     @PrePersist
-    void prePersist() {
-        if (entryTime == null) {
-            entryTime = LocalDateTime.now();
-        }
+    public void prePersist() {
+        this.entryTime = LocalDateTime.now();
     }
 }

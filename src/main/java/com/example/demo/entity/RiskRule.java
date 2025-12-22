@@ -1,12 +1,19 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Table(
+    name = "risk_rules",
+    uniqueConstraints = @UniqueConstraint(columnNames = "ruleName")
+)
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class RiskRule {
 
@@ -14,16 +21,22 @@ public class RiskRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(nullable = false)
     private String ruleName;
 
-    private String ruleType;
+    @Column(nullable = false)
+    private String ruleType; // AFTER_HOURS, FREQUENT_VISITS, etc.
+
+    @Column(nullable = false)
     private Integer threshold;
+
+    @Column(nullable = false)
     private Integer scoreImpact;
+
     private LocalDateTime createdAt;
 
     @PrePersist
-    void prePersist() {
-        createdAt = LocalDateTime.now();
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
     }
 }
