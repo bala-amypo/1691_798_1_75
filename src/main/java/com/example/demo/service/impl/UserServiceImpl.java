@@ -17,14 +17,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider jwtTokenProvider;
+    // private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public User register(RegisterRequest request) {
-        userRepository.findByEmail(request.getEmail())
-                .ifPresent(u -> {
-                    throw new IllegalArgumentException("Email already exists");
-                });
+    // public User register(RegisterRequest request) {
+    //     userRepository.findByEmail(request.getEmail())
+    //             .ifPresent(u -> {
+    //                 throw new IllegalArgumentException("Email already exists");
+    //             });
 
         User user = User.builder()
                 .email(request.getEmail())
