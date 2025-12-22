@@ -1,6 +1,6 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.RiskScore;
+import com.example.demo.entity.RiskScore;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

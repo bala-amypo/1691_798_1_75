@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.ScoreAuditLog;
+import com.example.demo.entity.ScoreAuditLog;
 
 import java.util.List;
 

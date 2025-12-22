@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.RiskScore;
+import com.example.demo.entity.RiskScore;
 import com.example.demo.service.RiskScoreService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

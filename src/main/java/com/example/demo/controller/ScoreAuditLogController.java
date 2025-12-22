@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.ScoreAuditLog;
+import com.example.demo.entity.ScoreAuditLog;
 import com.example.demo.service.ScoreAuditLogService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
