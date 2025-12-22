@@ -1,11 +1,11 @@
 package com.example.demo.service.impl;
 
-// import com.example.demo.dto.AuthRequest;
-// import com.example.demo.dto.AuthResponse;
-// import com.example.demo.dto.RegisterRequest;
+import com.example.demo.dto.AuthRequest;
+import com.example.demo.dto.AuthResponse;
+import com.example.demo.dto.RegisterRequest;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
-// import com.example.demo.security.JwtTokenProvider;
+import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,43 +17,36 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    // private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider; // ✅ MUST MATCH
 
     @Override
-    // public User register(RegisterRequest request) {
+    public User register(RegisterRequest request) {
+        userRepository.findByEmail(request.getEmail())
+                .ifPresent(u -> {
+                    throw new IllegalArgumentException("Email already exists");
+                });
 
-    //     userRepository.findByEmail(request.getEmail())
-    //             .ifPresent(u -> {
-    //                 throw new IllegalArgumentException("Email already exists");
-    //             });
+        User user = User.builder()
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .roles(request.getRoles())
+                .build();
 
-    //     User user = User.builder()
-    //             .email(request.getEmail())
-    //             .password(passwordEncoder.encode(request.getPassword()))
-    //             .roles(request.getRoles())
-    //             .build();
-
-    //     return userRepository.save(user);
-    // }
-
-    @Override
-    // public AuthResponse login(AuthRequest request) {
-
-    //     User user = userRepository.findByEmail(request.getEmail())
-    //             .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
-
-    //     if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-    //         throw new IllegalArgumentException("Invalid credentials");
-    //     }
-
-    //     String token = jwtTokenProvider.generateToken(user);
-
-    //     return new AuthResponse(token, user.getEmail(), user.getRoles());
-    // }
+        return userRepository.save(user);
+    }
 
     @Override
-    public User getByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public AuthResponse login(AuthRequest request) {
+
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("Invalid credentials");
+        }
+
+        String token = jwtTokenProvider.generateToken(user);
+
+        return new AuthResponse(token, user.getEmail(), user.getRoles());
     }
 }
