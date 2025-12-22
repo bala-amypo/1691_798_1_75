@@ -3,35 +3,38 @@ package com.example.demo.controller;
 import com.example.demo.model.ScoreAuditLog;
 import com.example.demo.service.ScoreAuditLogService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Score Audit Logs")
 @RestController
 @RequestMapping("/api/score-logs")
+@RequiredArgsConstructor
+@Tag(name = "Score Audit Logs")
 public class ScoreAuditLogController {
 
-    private final ScoreAuditLogService auditLogService;
-
-    public ScoreAuditLogController(ScoreAuditLogService auditLogService) {
-        this.auditLogService = auditLogService;
-    }
+    private final ScoreAuditLogService scoreAuditLogService;
 
     @PostMapping("/{visitorId}/{ruleId}")
-    public ScoreAuditLog createLog(@PathVariable Long visitorId,
-                                   @PathVariable Long ruleId,
-                                   @RequestBody ScoreAuditLog log) {
-        return auditLogService.logScoreChange(visitorId, ruleId, log);
+    public ResponseEntity<ScoreAuditLog> createLog(
+            @PathVariable Long visitorId,
+            @PathVariable Long ruleId,
+            @RequestBody ScoreAuditLog log
+    ) {
+        return ResponseEntity.ok(
+                scoreAuditLogService.logScoreChange(visitorId, ruleId, log)
+        );
     }
 
     @GetMapping("/{id}")
-    public ScoreAuditLog getLog(@PathVariable Long id) {
-        return auditLogService.getLog(id);
+    public ResponseEntity<ScoreAuditLog> getLog(@PathVariable Long id) {
+        return ResponseEntity.ok(scoreAuditLogService.getLog(id));
     }
 
     @GetMapping("/visitor/{visitorId}")
-    public List<ScoreAuditLog> getLogsByVisitor(@PathVariable Long visitorId) {
-        return auditLogService.getLogsByVisitor(visitorId);
+    public ResponseEntity<List<ScoreAuditLog>> getLogsByVisitor(@PathVariable Long visitorId) {
+        return ResponseEntity.ok(scoreAuditLogService.getLogsByVisitor(visitorId));
     }
 }
