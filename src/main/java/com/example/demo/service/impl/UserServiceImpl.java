@@ -36,18 +36,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public AuthResponse login(AuthRequest request) {
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
+    // public AuthResponse login(AuthRequest request) {
+    //     User user = userRepository.findByEmail(request.getEmail())
+    //             .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("Invalid credentials");
-        }
+    //     if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+    //         throw new IllegalArgumentException("Invalid credentials");
+    //     }
 
-        String token = jwtTokenProvider.generateToken(user);
+    //     String token = jwtTokenProvider.generateToken(user);
 
-        return new AuthResponse(token, user.getEmail(), user.getRoles());
-    }
+    //     return new AuthResponse(token, user.getEmail(), user.getRoles());
+    // }
 
     @Override
     public User getByEmail(String email) {
