@@ -4,6 +4,7 @@ import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.AuthResponse;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.entity.User;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.UserService;
@@ -17,10 +18,11 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider jwtTokenProvider; // ✅ MUST MATCH
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public User register(RegisterRequest request) {
+
         userRepository.findByEmail(request.getEmail())
                 .ifPresent(u -> {
                     throw new IllegalArgumentException("Email already exists");
@@ -39,7 +41,8 @@ public class UserServiceImpl implements UserService {
     public AuthResponse login(AuthRequest request) {
 
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Invalid credentials"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("Invalid credentials");
@@ -48,5 +51,13 @@ public class UserServiceImpl implements UserService {
         String token = jwtTokenProvider.generateToken(user);
 
         return new AuthResponse(token, user.getEmail(), user.getRoles());
+    }
+
+    // ✅ THIS METHOD FIXES YOUR ERROR
+    @Override
+    public User getByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User not found with email: " + email));
     }
 }
