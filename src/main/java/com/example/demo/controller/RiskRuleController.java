@@ -2,15 +2,14 @@ package com.example.demo.controller;
 
 import com.example.demo.model.RiskRule;
 import com.example.demo.service.RiskRuleService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.*;
+import java.util.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-import java.util.List;
-
+@Tag(name = "Risk Rule Controller")
 @RestController
 @RequestMapping("/api/risk-rules")
-@Tag(name = "Risk Rules")
 public class RiskRuleController {
 
     private final RiskRuleService riskRuleService;
@@ -21,55 +20,22 @@ public class RiskRuleController {
 
     @PostMapping
     public ResponseEntity<RiskRule> create(@RequestBody RiskRule rule) {
-        return ResponseEntity.ok(riskRuleService.createRule(rule));
+        return ResponseEntity.ok(
+                riskRuleService.createRule(rule)
+        );
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RiskRule> get(@PathVariable Long id) {
-        return ResponseEntity.ok(riskRuleService.getRule(id));
+        return ResponseEntity.ok(
+                riskRuleService.getRule(id)
+        );
     }
 
     @GetMapping
     public ResponseEntity<List<RiskRule>> all() {
-        return ResponseEntity.ok(riskRuleService.getAllRules());
+        return ResponseEntity.ok(
+                riskRuleService.getAllRules()
+        );
     }
 }
-
-
-
-
-
-// package com.example.demo.controller;
-
-// import com.example.demo.entity.RiskRule;
-// import com.example.demo.service.RiskRuleService;
-// import io.swagger.v3.oas.annotations.tags.Tag;
-// import lombok.RequiredArgsConstructor;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.web.bind.annotation.*;
-
-// import java.util.List;
-
-// @RestController
-// @RequestMapping("/api/risk-rules")
-// @RequiredArgsConstructor
-// @Tag(name = "Risk Rules")
-// public class RiskRuleController {
-
-//     private final RiskRuleService riskRuleService;
-
-//     @PostMapping
-//     public ResponseEntity<RiskRule> createRule(@RequestBody RiskRule rule) {
-//         return ResponseEntity.ok(riskRuleService.createRule(rule));
-//     }
-
-//     @GetMapping("/{id}")
-//     public ResponseEntity<RiskRule> getRule(@PathVariable Long id) {
-//         return ResponseEntity.ok(riskRuleService.getRule(id));
-//     }
-
-//     @GetMapping
-//     public ResponseEntity<List<RiskRule>> getAllRules() {
-//         return ResponseEntity.ok(riskRuleService.getAllRules());
-//     }
-// }
