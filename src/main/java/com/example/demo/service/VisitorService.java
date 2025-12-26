@@ -1,34 +1,10 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Visitor;
-import java.util.List;
+import com.example.demo.model.*;
+import java.util.*;
 
 public interface VisitorService {
-
     Visitor createVisitor(Visitor visitor);
-
     Visitor getVisitor(Long id);
-
     List<Visitor> getAllVisitors();
 }
-
-
-
-
-
-
-
-// package com.example.demo.service;
-
-// import com.example.demo.entity.Visitor;
-
-// import java.util.List;
-
-// public interface VisitorService {
-
-//     Visitor createVisitor(Visitor visitor);
-
-//     Visitor getVisitor(Long id);
-
-//     List<Visitor> getAllVisitors();
-// }
