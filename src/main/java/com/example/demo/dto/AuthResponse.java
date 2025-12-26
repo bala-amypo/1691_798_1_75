@@ -1,13 +1,47 @@
 package com.example.demo.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import java.util.Set;   // ✅ REQUIRED
-
-@Getter
-@AllArgsConstructor
 public class AuthResponse {
+
     private String token;
-    private String email;
-    private Set<String> roles;
+
+    public AuthResponse() {
+    }
+
+    public AuthResponse(String token) {
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// package com.example.demo.dto;
+
+// import lombok.AllArgsConstructor;
+// import lombok.Getter;
+// import java.util.Set;   // ✅ REQUIRED
+
+// @Getter
+// @AllArgsConstructor
+// public class AuthResponse {
+//     private String token;
+//     private String email;
+//     private Set<String> roles;
+// }
