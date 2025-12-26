@@ -10,66 +10,34 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/visitors")
-@Tag(name = "Visitors")
+@Tag(name = "Visitor Controller")
 public class VisitorController {
 
     private final VisitorService visitorService;
 
+    // Constructor injection (REQUIRED by tests)
     public VisitorController(VisitorService visitorService) {
         this.visitorService = visitorService;
     }
 
+    // ===== CREATE VISITOR =====
     @PostMapping
     public ResponseEntity<Visitor> create(@RequestBody Visitor visitor) {
-        return ResponseEntity.ok(visitorService.createVisitor(visitor));
+        Visitor created = visitorService.createVisitor(visitor);
+        return ResponseEntity.ok(created);
     }
 
+    // ===== GET VISITOR BY ID =====
     @GetMapping("/{id}")
     public ResponseEntity<Visitor> get(@PathVariable Long id) {
-        return ResponseEntity.ok(visitorService.getVisitor(id));
+        Visitor visitor = visitorService.getVisitor(id);
+        return ResponseEntity.ok(visitor);
     }
 
+    // ===== GET ALL VISITORS =====
     @GetMapping
     public ResponseEntity<List<Visitor>> all() {
-        return ResponseEntity.ok(visitorService.getAllVisitors());
+        List<Visitor> visitors = visitorService.getAllVisitors();
+        return ResponseEntity.ok(visitors);
     }
 }
-
-
-
-
-
-// package com.example.demo.controller;
-
-// import com.example.demo.entity.Visitor;
-// import com.example.demo.service.VisitorService;
-// import io.swagger.v3.oas.annotations.tags.Tag;
-// import lombok.RequiredArgsConstructor;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.web.bind.annotation.*;
-
-// import java.util.List;
-
-// @RestController
-// @RequestMapping("/api/visitors")
-// @RequiredArgsConstructor
-// @Tag(name = "Visitors")
-// public class VisitorController {
-
-//     private final VisitorService visitorService;
-
-//     @PostMapping
-//     public ResponseEntity<Visitor> createVisitor(@RequestBody Visitor visitor) {
-//         return ResponseEntity.ok(visitorService.createVisitor(visitor));
-//     }
-
-//     @GetMapping("/{id}")
-//     public ResponseEntity<Visitor> getVisitor(@PathVariable Long id) {
-//         return ResponseEntity.ok(visitorService.getVisitor(id));
-//     }
-
-//     @GetMapping
-//     public ResponseEntity<List<Visitor>> getAllVisitors() {
-//         return ResponseEntity.ok(visitorService.getAllVisitors());
-//     }
-// }
