@@ -107,38 +107,36 @@
 </dependency>
 
 
+<dependency>
+    <groupId>org.testng</groupId>
+    <artifactId>testng</artifactId>
+    <version>7.10.2</version>
+    <scope>test</scope>
+</dependency>
+
+
+
     </dependencies>
 
     <build>
-        <plugins>
+        <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>3.2.5</version>
+    <configuration>
+        <!-- Force TestNG -->
+        <testNGArtifactName>org.testng:testng</testNGArtifactName>
 
-            <!-- Spring Boot -->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
+        <!-- Disable JUnit Platform completely -->
+        <useModulePath>false</useModulePath>
 
-            <!--  FORCE TESTNG -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.5</version>
-                <configuration>
-                    <useModulePath>false</useModulePath>
-                    <includes>
-                        <include>**/*Test.java</include>
-                    </includes>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.testng</groupId>
-                        <artifactId>testng</artifactId>
-                        <version>${testng.version}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
+        <!-- Point to testng.xml -->
+        <suiteXmlFiles>
+            <suiteXmlFile>testng.xml</suiteXmlFile>
+        </suiteXmlFiles>
+    </configuration>
+</plugin>
 
-        </plugins>
     </build>
 
 </project>
