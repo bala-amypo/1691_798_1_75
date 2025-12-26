@@ -1,9 +1,9 @@
 package com.example.demo.model;
 
+import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Getter
@@ -17,69 +17,39 @@ public class VisitLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String purpose;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "visitor_id", nullable = false)
+    @JsonIgnoreProperties("visitLogs")
+    private Visitor visitor;
 
-    private String location;
-
+    @Column(nullable = false, updatable = false)
     private LocalDateTime entryTime;
 
     private LocalDateTime exitTime;
 
-    @ManyToOne
-    @JoinColumn(name = "visitor_id")
-    private Visitor visitor;
+    @Column(nullable = false)
+    private String purpose;
+
+    @Column(nullable = false)
+    private String location;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     @PrePersist
     public void prePersist() {
         if (this.entryTime == null) {
             this.entryTime = LocalDateTime.now();
         }
+
+        this.createdAt = LocalDateTime.now();
+
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        if (exitTime != null && !exitTime.isAfter(entryTime)) {
+            throw new IllegalArgumentException("exitTime must be after entryTime");
+        }
     }
 }
-
-
-
-
-
-
-
-
-// package com.example.demo.entity;
-
-// import jakarta.persistence.*;
-// import lombok.*;
-
-// import java.time.LocalDateTime;
-
-// @Entity
-// @Table(name = "visit_logs")
-// @Getter
-// @Setter
-// @NoArgsConstructor
-// @AllArgsConstructor
-// @Builder
-// public class VisitLog {
-
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private Long id;
-
-//     @ManyToOne(fetch = FetchType.LAZY)
-//     @JoinColumn(name = "visitor_id", nullable = false)
-//     private Visitor visitor;
-
-//     private LocalDateTime entryTime;
-
-//     private LocalDateTime exitTime;
-
-//     @Column(nullable = false)
-//     private String purpose;
-
-//     @Column(nullable = false)
-//     private String location;
-
-//     @PrePersist
-//     public void prePersist() {
-//         this.entryTime = LocalDateTime.now();
-//     }
-// }

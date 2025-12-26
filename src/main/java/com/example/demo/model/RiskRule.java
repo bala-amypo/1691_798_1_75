@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,60 +16,32 @@ public class RiskRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String ruleName;
 
+    @Column(nullable = false)
     private String ruleType;
 
     private Integer threshold;
 
     private Integer scoreImpact;
+
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void prePersist() {
+        if (ruleName == null || ruleName.isBlank()) {
+            throw new RuntimeException("ruleName required");
+        }
+        if (ruleType == null || ruleType.isBlank()) {
+            throw new RuntimeException("ruleType required");
+        }
+        if (threshold < 0) {
+            throw new RuntimeException("threshold must be greater than 0");
+        }
+        if (scoreImpact == 0) {
+            throw new RuntimeException("scoreImpact cannot be 0");
+        }
+        this.createdAt = LocalDateTime.now();
+    }
 }
-
-
-
-
-
-
-
-// package com.example.demo.entity;
-
-// import jakarta.persistence.*;
-// import lombok.*;
-
-// import java.time.LocalDateTime;
-
-// @Entity
-// @Table(
-//     name = "risk_rules",
-//     uniqueConstraints = @UniqueConstraint(columnNames = "ruleName")
-// )
-// @Getter
-// @Setter
-// @NoArgsConstructor
-// @AllArgsConstructor
-// @Builder
-// public class RiskRule {
-
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private Long id;
-
-//     @Column(nullable = false)
-//     private String ruleName;
-
-//     @Column(nullable = false)
-//     private String ruleType; // AFTER_HOURS, FREQUENT_VISITS, etc.
-
-//     @Column(nullable = false)
-//     private Integer threshold;
-
-//     @Column(nullable = false)
-//     private Integer scoreImpact;
-
-//     private LocalDateTime createdAt;
-
-//     @PrePersist
-//     public void prePersist() {
-//         this.createdAt = LocalDateTime.now();
-//     }
-// }
