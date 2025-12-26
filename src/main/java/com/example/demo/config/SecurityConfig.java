@@ -3,20 +3,11 @@ package com.example.demo.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
 
-    //  REQUIRED for UserServiceImpl
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    //  Swagger + API security
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -26,14 +17,14 @@ public class SecurityConfig {
                 //  Allow Swagger
                 .requestMatchers(
                     "/swagger-ui/**",
-                    "/v3/api-docs/**",
-                    "/swagger-ui.html"
+                    "/swagger-ui.html",
+                    "/v3/api-docs/**"
                 ).permitAll()
 
                 //  Allow auth APIs
                 .requestMatchers("/api/auth/**").permitAll()
 
-                // 🔐 Secure everything else
+                // everything else secured
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form.disable())
@@ -42,7 +33,6 @@ public class SecurityConfig {
         return http.build();
     }
 }
-
 
 
 
